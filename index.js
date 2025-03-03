@@ -45,14 +45,32 @@ app.delete('/api/notes/:id', (request, response) => {
     response.status(204).end()
 })
 
+const generateId = () => {
+    const maxId = notes.length > 0
+    ? Math.max(...notes.map(n => Number(n.id)))
+    : 0
+    
+    return String(maxId + 1)
+}
+
 app.use(express.json()) 
 // Otetaan käyttöön json expressille, jotta voidaan muuttaa json-merkkijono js-olioksi ja toisinpäin.
 // Tämä middleware muuttaa json-muotoisen merkkijonon js-olioksi ennen post-tapahtumakäsittelijää.
 
 app.post('/api/notes', (request, response) => {
-    const note = request.body // middleware on jo muuttanut tässä json-merkkijonon js-olioksi eli note on js-olio.
-    console.log(note)
-    console.log(request.headers)
+    const body = request.body // middleware on jo muuttanut tässä json-merkkijonon js-olioksi eli note on js-olio.
+   
+    if(!body.content) {
+        return response.status(400).json({error: "content missing"})
+    }
+    
+    const note = {
+        id: generateId(),
+        content: body.content,
+        important: body.important || false
+    }
+
+    notes = notes.concat(note)
     response.json(note) // tämä muuttaa js-olion takaisin json-merkkijonoksi ja lähettää sen näin takaisin asiakkaalle.
 })
 
