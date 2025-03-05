@@ -62,15 +62,12 @@ const generateId = () => {
 app.put('/api/notes/:id', (request, response) => {
     const id = request.params.id
     const note = notes.find(n => n.id === id)
-    const {content, important} = request.body
+    const changedNote = request.body
 
     if(!note) {
         return response.status(404).json({message: 'Note not found'})
     }
-    note.content = content || note.content
-    note.important = important || note.important
-
-    response.send(note)
+    response.send(changedNote)
 })
 
 app.post('/api/notes', (request, response) => {
