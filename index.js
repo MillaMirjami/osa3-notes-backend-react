@@ -59,6 +59,11 @@ const generateId = () => {
     return String(maxId + 1)
 }
 
+app.put('/api/notes/:id', (request, response) => {
+    const id = request.params.id
+    const note = notes.find(n => n.id === id)
+    response.send(response.body)
+})
 
 app.post('/api/notes', (request, response) => {
     const body = request.body // middleware on jo muuttanut tässä json-merkkijonon js-olioksi eli note on js-olio.
