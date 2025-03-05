@@ -70,7 +70,7 @@ app.put('/api/notes/:id', (request, response) => {
     note.content = content || note.content
     note.important = important || note.important
 
-    response.json(note)
+    response.send(note)
 })
 
 app.post('/api/notes', (request, response) => {
