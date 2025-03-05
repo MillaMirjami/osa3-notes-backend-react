@@ -20,7 +20,8 @@ let notes = [
     }
 ]
 app.use(cors())
-app.use(express.json()) 
+app.use(express.json())
+app.use(express.static('dist'))
 // Otetaan käyttöön json expressille, jotta voidaan muuttaa json-merkkijono js-olioksi ja toisinpäin.
 // Tämä middleware muuttaa json-muotoisen merkkijonon js-olioksi ennen post-tapahtumakäsittelijää.
 
