@@ -62,7 +62,7 @@ const generateId = () => {
 app.put('/api/notes/:id', (request, response) => {
     const id = request.params.id
     const note = notes.find(n => n.id === id)
-    response.send(response.body)
+    response.send(note)
 })
 
 app.post('/api/notes', (request, response) => {
