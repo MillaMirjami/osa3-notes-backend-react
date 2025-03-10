@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const cors = require('cors')
 
 let notes = [
     {
@@ -19,7 +18,6 @@ let notes = [
         important: true
     }
 ]
-app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 // Otetaan käyttöön json expressille, jotta voidaan muuttaa json-merkkijono js-olioksi ja toisinpäin.
