@@ -23,6 +23,13 @@ app.use(express.static('dist'))
 // Otetaan käyttöön json expressille, jotta voidaan muuttaa json-merkkijono js-olioksi ja toisinpäin.
 // Tämä middleware muuttaa json-muotoisen merkkijonon js-olioksi ennen post-tapahtumakäsittelijää.
 
+const requestLogger = (request, response) => {
+    console.log('Method:', request.method)
+    console.log('Path', request.path)
+    console.log('Body', request.body)
+    console.log('---')
+}
+
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
 })
@@ -81,6 +88,7 @@ app.post('/api/notes', (request, response) => {
         important: body.important || false
     }
 
+    requestLogger(request)
     notes = notes.concat(note)
     response.json(note) // tämä muuttaa js-olion takaisin json-merkkijonoksi ja lähettää sen näin takaisin asiakkaalle.
 })
