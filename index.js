@@ -10,6 +10,7 @@ app.use(express.static('dist'))
 
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
+    console.log('Status:', response.statusCode)
     console.log('Path', request.path)
     console.log('Body', request.body)
     console.log('---')
@@ -19,9 +20,7 @@ const requestLogger = (request, response, next) => {
 app.use(requestLogger)
 
 app.get('/api/notes', (request, response) => {
-    Note.find({}).then(notes => {
-        response.json(notes)
-    })
+    Note.find({}).then(notes => response.json(notes))
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -30,7 +29,8 @@ app.get('/api/notes/:id', (request, response) => {
 
 app.delete('/api/notes/:id', (request, response) => {
     Note.findByIdAndDelete(request.params.id).then(result => {
-        response.json({message:"Deletion successful"})})
+        response.send('deletion succesfull')
+    })
 })
 
 app.put('/api/notes/:id', (request, response) => {
