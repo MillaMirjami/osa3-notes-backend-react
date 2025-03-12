@@ -15,10 +15,6 @@ const requestLogger = (request, response) => {
     console.log('---')
 }
 
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-})
-
 app.get('/api/notes', (request, response) => {
     Note.find({}).then(notes => {
         response.json(notes)
@@ -30,29 +26,12 @@ app.get('/api/notes/:id', (request, response) => {
 })
 
 app.delete('/api/notes/:id', (request, response) => {
-    const id = request.params.id
-    notes = notes.filter(note => note.id !== id)
-
-    response.status(204).end()
+    Note.findByIdAndDelete(request.params.id).then(result => {
+        response.json({message:"Deletion successful"})})
 })
 
-const generateId = () => {
-    const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => Number(n.id)))
-    : 0
-    
-    return String(maxId + 1)
-}
-
 app.put('/api/notes/:id', (request, response) => {
-    const id = request.params.id
-    const note = notes.find(n => n.id === id)
-    const changedNote = request.body
-
-    if(!note) {
-        return response.status(404).json({message: 'Note not found'})
-    }
-    response.send(changedNote)
+    Note.findByIdAndUpdate(request.params.id, request.body).then(updatedNote => response.send(updatedNote))
 })
 
 app.post('/api/notes', (request, response) => {
